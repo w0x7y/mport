@@ -24,7 +24,7 @@ func main() {
 	filterPorts := make(map[string]bool)
 
 	mode := ""
-	if len(args) > 0 && (args[0] == "--info" || args[0] == "--kill") {
+	if len(args) > 0 && (args[0] == "--info" || args[0] == "-i" || args[0] == "--kill" || args[0] == "-k") {
 		mode = args[0]
 		args = args[1:]
 
@@ -67,12 +67,12 @@ func main() {
 		}
 
 		switch mode {
-		case "--info":
+		case "--info", "-i":
 			cmdline, err := os.ReadFile(fmt.Sprintf("/proc/%d/cmdline", port.PID))
 			if err == nil {
 				fmt.Println("  Command:", strings.TrimSpace(strings.ReplaceAll(string(cmdline), "\x00", " ")))
 			}
-		case "--kill":
+		case "--kill", "-k":
 			killProcess(port.PID)
 		}
 	}
